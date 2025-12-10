@@ -7,15 +7,11 @@ pipeline {
         stage('Build') {
             steps {
                 echo 'Building...'
-                // Checkout code to make git info available
                 checkout scm
                 script {
-                    // Get latest commit info
-                    def commitHash = sh(script: "git rev-parse HEAD", returnStdout: true).trim()
-                    def author = sh(script: "git log -1 --pretty=format:'%an'", returnStdout: true).trim()
-                    def message = sh(script: "git log -1 --pretty=format:'%s'", returnStdout: true).trim()
-                    
-                    // Save to environment for post section
+                    def commitHash = bat(script: "git rev-parse HEAD", returnStdout: true).trim()
+                    def author = bat(script: "git log -1 --pretty=format:'%an'", returnStdout: true).trim()
+                    def message = bat(script: "git log -1 --pretty=format:'%s'", returnStdout: true).trim()
                     env.LAST_COMMIT = commitHash
                     env.LAST_AUTHOR = author
                     env.LAST_MESSAGE = message
